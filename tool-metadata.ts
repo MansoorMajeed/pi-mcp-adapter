@@ -25,10 +25,12 @@ export function buildToolMetadata(
     }
 
     let uiResourceUri: string | undefined;
-    try {
-      uiResourceUri = getToolUiResourceUri({ _meta: tool._meta });
-    } catch {
-      failedTools.push(tool.name);
+    if (definition.apps !== false) {
+      try {
+        uiResourceUri = getToolUiResourceUri({ _meta: tool._meta });
+      } catch {
+        failedTools.push(tool.name);
+      }
     }
     metadata.push({
       name: formatToolName(tool.name, serverName, prefix),

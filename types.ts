@@ -313,6 +313,9 @@ export interface ServerEntry {
   directTools?: boolean | string[];
   // Exclude specific MCP tools/resources by original or prefixed name
   excludeTools?: string[];
+  // MCP Apps UI: set false to disable interactive UI (no browser auto-open) for
+  // this server's tools. Tools still work and return their text/JSON payload.
+  apps?: boolean;  // default: true
   // Debug
   debug?: boolean;  // Show server stderr (default: false)
 }
