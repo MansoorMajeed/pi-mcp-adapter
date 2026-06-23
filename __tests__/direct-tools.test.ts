@@ -297,3 +297,46 @@ describe("excludeTools filtering", () => {
     expect(specs.map((spec) => spec.prefixedName)).toEqual(["get_nodes"]);
   });
 });
+
+describe("direct tools UI gating", () => {
+  const makeConfig = (apps?: boolean): McpConfig => ({
+    settings: { toolPrefix: "none" },
+    mcpServers: {
+      search: {
+        command: "npx",
+        args: ["-y", "search"],
+        directTools: true,
+        ...(apps === undefined ? {} : { apps }),
+      },
+    },
+  });
+
+  const makeCache = (config: McpConfig): MetadataCache => ({
+    version: 1,
+    servers: {
+      search: {
+        configHash: computeServerHash(config.mcpServers.search),
+        cachedAt: Date.now(),
+        tools: [
+          { name: "search_kb", description: "Search", uiResourceUri: "ui://search/app.html" },
+        ],
+        resources: [],
+      },
+    },
+  });
+
+  it("keeps uiResourceUri on direct tools by default", () => {
+    const config = makeConfig();
+    const specs = resolveDirectTools(config, makeCache(config), "none");
+    expect(specs).toHaveLength(1);
+    expect(specs[0].uiResourceUri).toBe("ui://search/app.html");
+  });
+
+  it("strips uiResourceUri on direct tools when apps is false but keeps the tool", () => {
+    const config = makeConfig(false);
+    const specs = resolveDirectTools(config, makeCache(config), "none");
+    expect(specs).toHaveLength(1);
+    expect(specs[0].prefixedName).toBe("search_kb");
+    expect(specs[0].uiResourceUri).toBeUndefined();
+  });
+});

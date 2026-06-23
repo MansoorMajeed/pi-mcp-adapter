@@ -127,6 +127,8 @@ export function resolveDirectTools(
 
     if (!toolFilter) continue;
 
+    const appsEnabled = definition.apps !== false;
+
     for (const tool of serverCache.tools ?? []) {
       if (toolFilter !== true && !toolFilter.includes(tool.name)) continue;
       if (isToolExcluded(tool.name, serverName, prefix, definition.excludeTools)) continue;
@@ -146,7 +148,7 @@ export function resolveDirectTools(
         prefixedName,
         description: tool.description ?? "",
         inputSchema: tool.inputSchema,
-        uiResourceUri: tool.uiResourceUri,
+        uiResourceUri: appsEnabled ? tool.uiResourceUri : undefined,
         uiStreamMode: tool.uiStreamMode,
       });
     }

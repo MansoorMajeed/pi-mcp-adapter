@@ -138,6 +138,7 @@ Pi-specific files are the write targets for imported or shared global servers wh
 | `exposeResources` | Expose MCP resources as tools (default: true) |
 | `directTools` | `true`, `string[]`, or `false` — register tools individually instead of through proxy |
 | `excludeTools` | `string[]` of tool names to hide (matches original names like `get_screenshot` and prefixed names like `figma_get_screenshot`) |
+| `apps` | Enable MCP Apps UI for this server's tools (default: true). Set `false` to suppress the interactive UI / browser auto-open — tools still work and return their text/JSON payload. Useful for headless or subagent contexts. |
 | `debug` | Show server stderr (default: false) |
 
 For pre-registered browser OAuth clients, set `oauth.redirectUri` to the exact callback registered with the provider, for example `"http://localhost:3118/callback"`. Dynamic clients normally omit it and use a lazy OS-assigned localhost callback port.

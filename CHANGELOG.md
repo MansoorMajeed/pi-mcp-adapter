@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Added per-server `apps` config flag (default `true`). Set `"apps": false` to disable MCP Apps UI for a server's tools — the adapter no longer auto-opens a browser/UI session for tools that declare a UI resource, and the tools still work as normal text tools. Useful for headless and subagent contexts.
+
 ## [2.10.0] - 2026-06-13
 
 ### Added

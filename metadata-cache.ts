@@ -117,9 +117,10 @@ export function reconstructToolMetadata(
   serverName: string,
   entry: ServerCacheEntry,
   prefix: "server" | "none" | "short",
-  definition: Pick<ServerEntry, "exposeResources" | "excludeTools">
+  definition: Pick<ServerEntry, "exposeResources" | "excludeTools" | "apps">
 ): ToolMetadata[] {
   const metadata: ToolMetadata[] = [];
+  const appsEnabled = definition.apps !== false;
 
   for (const tool of entry.tools ?? []) {
     if (!tool?.name) continue;
@@ -132,7 +133,7 @@ export function reconstructToolMetadata(
       originalName: tool.name,
       description: tool.description ?? "",
       inputSchema: tool.inputSchema,
-      uiResourceUri: tool.uiResourceUri,
+      uiResourceUri: appsEnabled ? tool.uiResourceUri : undefined,
       uiStreamMode: tool.uiStreamMode,
     });
   }
